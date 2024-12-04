@@ -31,19 +31,18 @@ func updateDiscord(path string) error {
 	if err != nil {
 		return err
 	}
-
 	defer response.Body.Close()
 
 	output, err := os.Create(path)
 	if err != nil {
 		return err
 	}
-	defer output.Close()
+	defer output.Close() // closing after opening is a good practice ;D
 
 	var size = response.ContentLength
 	var progress *Progress = &Progress{Total: size}
 
-	_, err = io.Copy(output, io.TeeReader(response.Body, progress))
+	_, err = io.Copy(output, io.TeeReader(response.Body, progress)) // this is where the magic happens
 	if err != nil {
 		return err
 	}
@@ -66,7 +65,7 @@ func homePath() string {
 }
 
 func main() {
-	if os.Geteuid() != 0 {
+	if os.Geteuid() != 0 { // you must be super user to update apps through the package manager :v
 		fmt.Println("You must run this program as root")
 		return
 	}
@@ -78,7 +77,5 @@ func main() {
 		return
 	}
 
-	os.Remove(path)
-
-	return
+	os.Remove(path) // remove the file after being installed so it wont take memory uselessly
 }
