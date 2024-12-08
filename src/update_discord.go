@@ -47,8 +47,8 @@ func updateDiscord(path string) error {
 		return err
 	}
 
-	var cmd *exec.Cmd = exec.Command("sudo", "dpkg", "i", path)
-	cmd.Stdout = os.Stdout
+	var cmd *exec.Cmd = exec.Command("sudo", "dpkg", "-i", path)
+	cmd.Stdout = io.Discard
 	cmd.Stderr = os.Stderr
 
 	err = cmd.Run()
