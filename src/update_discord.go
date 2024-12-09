@@ -56,7 +56,7 @@ func updateDiscord(path string) error {
 		return err
 	}
 
-	fmt.Println("Update was successful :D")
+	fmt.Printf("\nUpdate was successful :D\n")
 	return nil
 }
 
