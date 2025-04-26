@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"net/http"
 	"io"
+	"strings"
 )
 
 
@@ -46,7 +47,9 @@ func updateDiscord(path string) error {
 	if err != nil {
 		return err
 	}
-
+	
+	var parts []string = strings.Split(response.Request.URL.String(), "/")
+	fmt.Printf("\nUnpacking %s and installing it...", parts[len(parts) - 1])
 	var cmd *exec.Cmd = exec.Command("sudo", "dpkg", "-i", path)
 	cmd.Stdout = io.Discard
 	cmd.Stderr = os.Stderr
